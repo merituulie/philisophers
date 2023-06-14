@@ -14,9 +14,9 @@
 
 static int	invalid_input_data(t_data *data)
 {
-	if (data->max_philo_id < 1 || data->time_to_die < 1
-		|| data->time_to_eat < 1 || data->time_to_sleep < 1
-		|| data->meal_count <= -1)
+	if (data->max_philo_id < 1 || data->max_philo_id > 200
+		|| data->time_to_die < 1 || data->time_to_eat < 1
+		|| data->time_to_sleep < 1 || data->meal_count <= -1)
 	{
 		printf("Received negative or overflowing numbers where expecting unsigned integers.\n");
 		return (1);
@@ -29,6 +29,8 @@ int	init(t_data **data, char **input, int argc)
 	*data = (t_data *)ft_calloc(1, sizeof(**data));
 	if (!data || !(*data))
 		return (0);
+	(*data)->start_time = 0;
+	(*data)->all_ate = 0;
 	(*data)->max_philo_id = ft_atoi(input[1]);
 	(*data)->time_to_die = ft_atoi(input[2]);
 	(*data)->time_to_eat = ft_atoi(input[3]);
@@ -37,6 +39,11 @@ int	init(t_data **data, char **input, int argc)
 		(*data)->meal_count = ft_atoi(input[5]);
 	else
 		(*data)->meal_count = 0;
+	if (pthread_mutex_init(&(*data)->lock, NULL) != 0)
+	{
+		printf("Error in initializing a mutex for the data.\n");
+		return (0);
+	}
 	if (invalid_input_data(*data))
 		return (0);
 	if (!init_forks(data))

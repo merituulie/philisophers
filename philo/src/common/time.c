@@ -12,7 +12,7 @@
 
 #include "../../headers/philo.h"
 
-unsigned int	time_ms(void)
+size_t	time_ms(void)
 {
 	struct timeval			tv;
 

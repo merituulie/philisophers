@@ -20,22 +20,18 @@
 # include <stdio.h>
 # include <pthread.h>
 
-typedef struct s_fork
-{
-	int	id;
-	pthread_mutex_t	lock;
-}	t_fork;
-
 typedef struct s_data
 {
-	int	max_philo_id;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	start_time;
-	int	meal_count; // number_of_times_each_philosopher_must_eat
-	struct s_fork	*forks;
+	int				max_philo_id;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				start_time;
+	int				meal_count; // number_of_times_each_philosopher_must_eat
+	int				all_ate;
+	pthread_mutex_t	*forks;
 	struct s_philo	*philos;
+	pthread_mutex_t	lock;
 }	t_data;
 
 typedef struct s_philo
@@ -51,9 +47,7 @@ typedef struct s_philo
 }	t_philo;
 
 // COMMON
-int				strlength(char *s);
-void			putstr_fd(char *s, int fd);
-unsigned int	time_ms(void);
+size_t			time_ms(void);
 int				invalid_input(int arg_count, char **input);
 int				ft_atoi(const char *str);
 void			*ft_calloc(size_t count, size_t size);
@@ -62,5 +56,6 @@ void			*ft_calloc(size_t count, size_t size);
 int				init(t_data **data, char **input, int argc);
 int				init_philos(t_data **data);
 int				init_forks(t_data **data);
+int				clean_up(t_data **data);
 
 #endif

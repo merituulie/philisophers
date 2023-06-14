@@ -26,6 +26,7 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	else if (!init(&data, argv, argc))
 		return (EXIT_FAILURE);
+	philosophers(&data);
 	printf("philos: %d\n", data->max_philo_id);
 	printf("die: %d\n", data->time_to_die);
 	printf("eat: %d\n", data->time_to_eat);

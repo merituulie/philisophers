@@ -46,7 +46,7 @@ static int start_threads(t_data **data)
 	i = 0;
 	while (i < (*data)->max_philo_id)
 	{
-		if (pthread_create(&(*data)->philos[i], NULL, &simulation, NULL) != 0)
+		if (pthread_create(&(*data)->philos[i], data, &simulation, NULL) != 0)
 		{
 			printf("Could not create a thread.\n");
 			return (0);

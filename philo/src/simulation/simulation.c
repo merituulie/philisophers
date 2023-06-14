@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-void	simulation()
+void	simulation(t_data **data)
 {
+	pthread_mutex_lock(&data->lock);
+	pthread_mutex_unlock(&data->lock);
 }

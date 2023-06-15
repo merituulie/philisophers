@@ -17,6 +17,7 @@ static int	init_philo(t_data **data, t_philo *new, int id)
 	new->data = *data;
 	new->id = id + 1;
 	new->meals_eaten = 0;
+	new->died = 0;
 	if (new->id == 1)
 	{
 		new->r_fork_id = (*data)->max_philo_id;

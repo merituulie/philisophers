@@ -30,7 +30,7 @@ int	init(t_data **data, char **input, int argc)
 	if (!data || !(*data))
 		return (0);
 	(*data)->start_time = 0;
-	(*data)->all_ate = 0;
+	(*data)->eat_count = 0;
 	(*data)->max_philo_id = ft_atoi(input[1]);
 	(*data)->time_to_die = ft_atoi(input[2]);
 	(*data)->time_to_eat = ft_atoi(input[3]);

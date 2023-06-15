@@ -28,7 +28,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				start_time;
 	int				meal_count; // number_of_times_each_philosopher_must_eat
-	int				all_ate;
+	int				eat_count;
 	pthread_mutex_t	*forks;
 	struct s_philo	*philos;
 	pthread_mutex_t	lock;
@@ -37,6 +37,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	pthread_t		thread;
+	int				died;
 	unsigned int	id;
 	unsigned int	time_since_last_meal;
 	unsigned int	meals_eaten;

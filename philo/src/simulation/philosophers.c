@@ -16,17 +16,17 @@ static void	supervise(t_philo *philos, int *death)
 {
 	int i;
 
-	i = 0;
 	while (1)
 	{
+		i = 1;
 		pthread_mutex_lock(&philos->data->lock);
-		if (meal_count != 0 && all_ate)
+		if (meal_count != 0 && eat_count >= (meal_count * philos->data->max_philo_id))
 			break ;
 		pthread_mutex_unlock(&philos->data->lock);
 		while (i < philos->data->max_philo_id)
 		{
 			pthread_mutex_lock(&philos[i]->lock);
-			if (philos[i + 1]->time_since_last_meal > philos->data->time_to_die)
+			if (philos[i]->time_since_last_meal > philos->data->time_to_die)
 			{
 				pthread_mutex_unlock(&philos[i]->lock);
 				printf("%d %i died\n", time_ms(), philos[i]->id);
@@ -46,7 +46,7 @@ static int start_threads(t_data **data)
 	i = 0;
 	while (i < (*data)->max_philo_id)
 	{
-		if (pthread_create(&(*data)->philos[i], data, &simulation, NULL) != 0)
+		if (pthread_create(&(*data)->philos[i], (*data)->philos[i], &simulation, NULL) != 0)
 		{
 			printf("Could not create a thread.\n");
 			return (0);

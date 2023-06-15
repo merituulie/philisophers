@@ -23,7 +23,8 @@ void	clean_up(t_data **data)
 		(*data)->philos[i]->data = NULL;
 		pthread_mutex_destroy(&(*data)->philos[i]->lock);
 		pthread_mutex_destroy(&(*data)->forks[i]);
+		free((*data)->philos[i]);
 		i++;
 	}
-	free((*data)->philos);
+	free(*data);
 }

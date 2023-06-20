@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_up.c                                         :+:      :+:    :+:   */
+/*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/14 19:07:43 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/14 19:07:43 by meskelin         ###   ########.fr       */
+/*   Created: 2023/06/19 17:25:05 by meskelin          #+#    #+#             */
+/*   Updated: 2023/06/19 17:35:27 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/philo.h"
 
-void	clean_up(t_data **data)
+unsigned long long	ft_usleep(unsigned long long time)
 {
-	int i;
+	unsigned long long	start;
 
-	i = 0;
-	pthread_mutex_destroy(&(*data)->lock);
-	while (i < (*data)->max_philo_id)
-	{
-		(*data)->philos[i]->data = NULL;
-		pthread_mutex_destroy(&(*data)->philos[i]->lock);
-		pthread_mutex_destroy(&(*data)->forks[i]);
-		free((*data)->philos[i]);
-		i++;
-	}
-	free(*data);
+	start = time_ms();
+	while ((time_ms() - start) < time)
+		usleep(time / 10);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:36:08 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/13 16:06:57 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:06:12 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	invalid_input_data(t_data *data)
 {
 	if (data->max_philo_id < 1 || data->max_philo_id > 200
 		|| data->time_to_die < 1 || data->time_to_eat < 1
-		|| data->time_to_sleep < 1 || data->meal_count <= -1)
+		|| data->time_to_sleep < 1 || data->meal_count < 0)
 	{
 		printf("Received negative or overflowing numbers where expecting unsigned integers.\n");
 		return (1);
@@ -29,12 +29,14 @@ int	init(t_data **data, char **input, int argc)
 	*data = (t_data *)ft_calloc(1, sizeof(**data));
 	if (!data || !(*data))
 		return (0);
+	(*data)->death = 0;
 	(*data)->start_time = 0;
 	(*data)->eat_count = 0;
 	(*data)->max_philo_id = ft_atoi(input[1]);
 	(*data)->time_to_die = ft_atoi(input[2]);
 	(*data)->time_to_eat = ft_atoi(input[3]);
 	(*data)->time_to_sleep = ft_atoi(input[4]);
+	(*data)->threads = (pthread_t *)malloc(sizeof(pthread_t) * (*data)->max_philo_id);
 	if (argc == 6)
 		(*data)->meal_count = ft_atoi(input[5]);
 	else

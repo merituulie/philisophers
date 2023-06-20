@@ -6,52 +6,34 @@
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 18:02:29 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/14 18:02:29 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:52:23 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/philo.h"
 
-static void	supervise(t_philo *philos, int *death)
+static int	supervise(t_data **data)
 {
 	int i;
 
+	pthread_mutex_unlock(&(*data)->lock);
 	while (1)
 	{
-		i = 1;
-		pthread_mutex_lock(&philos->data->lock);
-		if (meal_count != 0 && eat_count >= (meal_count * philos->data->max_philo_id))
+		if (all_meals_done(data))
 			break ;
-		pthread_mutex_unlock(&philos->data->lock);
-		while (i < philos->data->max_philo_id)
+		i = 0;
+		while (i <= ((*data)->max_philo_id - 1))
 		{
-			pthread_mutex_lock(&philos[i]->lock);
-			if (philos[i]->time_since_last_meal > philos->data->time_to_die)
+			if (philo_starved(data, i))
 			{
-				pthread_mutex_unlock(&philos[i]->lock);
-				printf("%d %i died\n", time_ms(), philos[i]->id);
-				break ;
+				if (!stop_threads(data))
+					return (0);
+				else
+					return (1);
 			}
-			pthread_mutex_unlock(&philos[i]->lock);
 			i++;
 		}
-		usleep(250);
-	}
-}
-
-static int start_threads(t_data **data)
-{
-	int i;
-
-	i = 0;
-	while (i < (*data)->max_philo_id)
-	{
-		if (pthread_create(&(*data)->philos[i], (*data)->philos[i], &simulation, NULL) != 0)
-		{
-			printf("Could not create a thread.\n");
-			return (0);
-		}
-		i++;
+		ft_usleep(200);
 	}
 	return (1);
 }
@@ -66,8 +48,8 @@ int	philosophers(t_data **data)
 	if (!start_threads(data))
 		return (0);
 	(*data)->start_time = time_ms();
-	pthread_mutex_unlock(&(*data)->lock);
-	supervise((*data)->philos, &(*data)->death);
+	if (!supervise(data))
+		return (0);
 	clean_up(data);
-	return (0);
+	return (1);
 }

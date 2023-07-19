@@ -5,19 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/19 17:25:05 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/19 17:35:27 by meskelin         ###   ########.fr       */
+/*   Created: 2023/07/04 16:18:11 by meskelin          #+#    #+#             */
+/*   Updated: 2023/07/12 14:40:35 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/philo.h"
+#include "../headers/philo.h"
 
-unsigned long long	ft_usleep(unsigned long long time)
+int	keep_looping(t_data **data)
+{
+	pthread_mutex_lock(&(*data)->lock);
+	if (!(*data)->death)
+	{
+		pthread_mutex_unlock(&(*data)->lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&(*data)->lock);
+	return (0);
+}
+
+void	ft_usleep(unsigned long long time, t_data **data)
 {
 	unsigned long long	start;
 
-	start = time_ms();
-	while ((time_ms() - start) < time)
-		usleep(time / 10);
-	return (0);
+	start = time_mls();
+	while (keep_looping(data))
+	{
+		if (time_mls() - start >= time)
+			break ;
+		usleep(500);
+	}
 }

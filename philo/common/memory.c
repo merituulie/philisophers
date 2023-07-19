@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/philo.h"
+#include "../headers/philo.h"
 
 static void	*ft_memset(void *b, int c, size_t len)
 {

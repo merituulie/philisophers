@@ -1,31 +1,43 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/04 14:38:49 by meskelin          #+#    #+#              #
+#    Updated: 2023/07/18 20:22:48 by meskelin         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = philo
 
-BUILD_FLAGS = -Wall -Wextra -Werror -fsanitize=address,undefined -g
+BUILD_FLAGS = -Wall -Wextra -Werror -o2 #-fsanitize=address,undefined -g #-fsanitize=thread
 
-COMMON_SRC = time \
-			validate \
-			nbr \
-			memory \
-			sleep \
-			ft_print
+COMMON_SRC =	validate \
+				nbr \
+				ft_print \
+				sleep \
+				time \
+				memory
 
-INIT_SRC = init_forks \
-			init_philo \
-			init_data \
-			clean_up
+INIT_SRC =	init \
+			init_forks \
+ 			init_philos \
+			clean
 
-SIM_SRC = threads \
-		check \
-		eat \
-		simulation \
-		philosophers
+SIM_SRC =	forks \
+			philosophers \
+			routine \
+			simulation \
+			threads \
+			checks
 
-COMMONSRCPRE = $(addprefix ./src/common/, $(COMMON_SRC))
+COMMONSRCPRE = $(addprefix ./common/, $(COMMON_SRC))
 COMMONSRCSUFF = $(addsuffix .c, $(COMMONSRCPRE))
-INITSRCPRE = $(addprefix ./src/data/, $(INIT_SRC))
+INITSRCPRE = $(addprefix ./data/, $(INIT_SRC))
 INITSRCSUFF = $(addsuffix .c, $(INITSRCPRE))
-SIMSRCPRE = $(addprefix ./src/simulation/, $(SIM_SRC))
+SIMSRCPRE = $(addprefix ./simulation/, $(SIM_SRC))
 SIMSRCSUFF = $(addsuffix .c, $(SIMSRCPRE))
 HSUFF = $(addsuffix .h, $(H_FILES))
 
@@ -33,7 +45,7 @@ HSUFF = $(addsuffix .h, $(H_FILES))
 all: $(NAME)
 
 $(NAME):
-	cc $(BUILD_FLAGS) $(COMMONSRCSUFF) $(INITSRCSUFF) $(SIMSRCSUFF) main.c -o $(NAME)
+	cc $(BUILD_FLAGS) $(COMMONSRCSUFF) $(SIMSRCSUFF) $(INITSRCSUFF) main.c -o $(NAME)
 
 .PHONY: clean
 clean:

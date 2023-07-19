@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_philo.c                                       :+:      :+:    :+:   */
+/*   init_philos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/13 11:27:32 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/20 16:35:51 by meskelin         ###   ########.fr       */
+/*   Created: 2023/07/04 15:18:26 by meskelin          #+#    #+#             */
+/*   Updated: 2023/07/18 18:45:55 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/philo.h"
+#include "../headers/philo.h"
 
 static int	init_philo(t_data **data, t_philo *new, int id)
 {
-	new->data = *data;
+	new->data = data;
 	new->id = id + 1;
-	new->meals_eaten = 0;
+	new->meals_to_eat = (*data)->meals_to_eat_per_philo;
 	new->eating = 0;
+	new->time_of_death = 0;
 	if (new->id == 1)
 	{
-		new->r_fork_id = (*data)->max_philo_id - 1;
+		new->r_fork_id = (*data)->philo_count - 1;
 		new->l_fork_id = 0;
 	}
 	else
@@ -33,27 +34,27 @@ static int	init_philo(t_data **data, t_philo *new, int id)
 		printf("Issue with initializing the mutex for the philo %i.\n", id);
 		return (0);
 	}
-	new->time_to_starve = (*data)->time_to_die;
+	new->time_since_last_meal = 0;
 	return (1);
 }
 
 int	init_philos(t_data **data)
 {
-	int	i;
+	int		i;
 
-	(*data)->philos = (t_philo *)ft_calloc((*data)->max_philo_id, sizeof(t_philo));
+	(*data)->philos = (t_philo *)ft_calloc((*data)->philo_count,
+			sizeof(t_philo));
 	if (!(*data)->philos)
 	{
 		printf("Error in allocating memory for philos.\n");
 		return (0);
 	}
 	i = 0;
-	while (i <= ((*data)->max_philo_id - 1))
+	while (i <= ((*data)->philo_count - 1))
 	{
 		if (!init_philo(data, &(*data)->philos[i], i))
 			return (0);
 		i++;
 	}
-	printf("%i philos created\n", i);
 	return (1);
 }

@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/06 17:50:33 by meskelin          #+#    #+#             */
-/*   Updated: 2023/06/19 17:12:31 by meskelin         ###   ########.fr       */
+/*   Created: 2023/07/04 15:52:00 by meskelin          #+#    #+#             */
+/*   Updated: 2023/07/04 16:42:11 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/philo.h"
+#include "../headers/philo.h"
 
-unsigned long long	time_ms(void)
+unsigned long long	time_mls(void)
 {
 	struct timeval			tv;
 

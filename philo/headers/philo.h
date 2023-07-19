@@ -6,7 +6,7 @@
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:10:28 by meskelin          #+#    #+#             */
-/*   Updated: 2023/07/18 20:20:26 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:05:08 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ int						invalid_input(int arg_count, char **input);
 int						ft_atoi(const char *str);
 void					*ft_calloc(size_t count, size_t size);
 unsigned long long		time_mls(void);
-void					ft_usleep(unsigned long long time, t_data **data);
+int						ft_usleep(unsigned long long time, t_data **data,
+							t_philo **philo);
 void					ft_printf_died(t_philo *philo, t_data *data);
 void					ft_print(t_philo **philo, t_data **data, int msg,
 							int has_forks);
-int						keep_looping(t_data **data);
 
 // DATA
 int						init_forks(t_data **data);

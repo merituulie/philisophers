@@ -6,7 +6,7 @@
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 16:24:01 by meskelin          #+#    #+#             */
-/*   Updated: 2023/07/18 19:24:19 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:19:35 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,18 @@ static int	update_eating(t_philo **philo, t_data **data)
 	pthread_mutex_lock(&(*philo)->lock);
 	(*philo)->eating = 1;
 	(*philo)->time_since_last_meal = time_mls();
+	pthread_mutex_unlock(&(*philo)->lock);
+	return (1);
+}
+
+static int	update_eat_count(t_philo **philo, t_data **data)
+{
+	pthread_mutex_lock(&(*philo)->lock);
 	if ((*data)->meals_to_eat_per_philo != -1)
 	{
 		(*philo)->meals_to_eat--;
 		if ((*philo)->meals_to_eat <= 0)
 		{
-			ft_print(philo, data, EAT, 1);
 			pthread_mutex_unlock(&(*philo)->lock);
 			return (0);
 		}
@@ -61,7 +67,12 @@ static int	eat(t_philo **philo, t_data **data)
 		return (0);
 	}
 	ft_print(philo, data, EAT, 1);
-	ft_usleep((*data)->time_to_eat, data);
+	if (!ft_usleep((*data)->time_to_eat, data, philo)
+		|| !update_eat_count(philo, data))
+	{
+		drop_forks(philo, data, (*philo)->r_fork_id, (*philo)->l_fork_id);
+		return (0);
+	}
 	drop_forks(philo, data, (*philo)->r_fork_id, (*philo)->l_fork_id);
 	return (1);
 }
@@ -73,7 +84,8 @@ int	routine(t_philo **philo, t_data **data)
 	if (!eat(philo, data))
 		return (0);
 	ft_print(philo, data, SLEEP, 0);
-	ft_usleep((*data)->time_to_sleep, data);
+	if (!ft_usleep((*data)->time_to_sleep, data, philo))
+		return (0);
 	ft_print(philo, data, THINK, 0);
 	return (1);
 }

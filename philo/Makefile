@@ -6,13 +6,13 @@
 #    By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/04 14:38:49 by meskelin          #+#    #+#              #
-#    Updated: 2023/07/18 20:22:48 by meskelin         ###   ########.fr        #
+#    Updated: 2023/07/19 11:00:12 by meskelin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-BUILD_FLAGS = -Wall -Wextra -Werror -o2 #-fsanitize=address,undefined -g #-fsanitize=thread
+BUILD_FLAGS = -Wall -Wextra -Werror -o2
 
 COMMON_SRC =	validate \
 				nbr \
@@ -33,13 +33,16 @@ SIM_SRC =	forks \
 			threads \
 			checks
 
+H_FILES = philo
+
 COMMONSRCPRE = $(addprefix ./common/, $(COMMON_SRC))
 COMMONSRCSUFF = $(addsuffix .c, $(COMMONSRCPRE))
 INITSRCPRE = $(addprefix ./data/, $(INIT_SRC))
 INITSRCSUFF = $(addsuffix .c, $(INITSRCPRE))
 SIMSRCPRE = $(addprefix ./simulation/, $(SIM_SRC))
 SIMSRCSUFF = $(addsuffix .c, $(SIMSRCPRE))
-HSUFF = $(addsuffix .h, $(H_FILES))
+H_PRE = $(addprefix ./headers/, $(H_FILES))
+HSUFF = $(addsuffix .h, $(H_PRE))
 
 .PHONY = all
 all: $(NAME)

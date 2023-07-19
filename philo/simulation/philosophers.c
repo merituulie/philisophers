@@ -6,7 +6,7 @@
 /*   By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 16:11:25 by meskelin          #+#    #+#             */
-/*   Updated: 2023/07/18 19:25:09 by meskelin         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:05:55 by meskelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*philosopher(void *thread_struct)
 	}
 	ft_print(&philo, &data, THINK, 0);
 	if (philo->id % 2 == 0 || (int)philo->id == data->philo_count)
-		ft_usleep(data->time_to_eat * 0.3, &data);
+		ft_usleep(data->time_to_eat * 0.3, &data, NULL);
 	while (1)
 	{
 		if (!routine(&philo, &data))

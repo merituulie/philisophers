@@ -6,13 +6,13 @@
 #    By: meskelin <meskelin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/04 14:38:49 by meskelin          #+#    #+#              #
-#    Updated: 2023/07/19 11:00:12 by meskelin         ###   ########.fr        #
+#    Updated: 2023/07/21 10:52:39 by meskelin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-BUILD_FLAGS = -Wall -Wextra -Werror -o2
+BUILD_FLAGS = -Wall -Wextra -Werror -o2 -g
 
 COMMON_SRC =	validate \
 				nbr \
